@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Logo from 'components/icon/Logo';
-import {Link} from 'react-router-dom';
+//import {Link} from 'react-router-dom';
 
 //dev server npm run build
 

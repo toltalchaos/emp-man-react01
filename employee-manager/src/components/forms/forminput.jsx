@@ -39,7 +39,7 @@ label{
 const FormInput = (props) => {
     return ( <>
     
-    <FormInputStyles>
+    <FormInputStyles {...props}>
         <label htmlFor={props.id}>{props.label}</label>
         <input type={props.inputType} id={props.id} name={props.name}></input>
     </FormInputStyles>

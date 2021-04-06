@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { Redirect, Route } from "react-router-dom";
 
 import styled from "styled-components";
 
 import FormInput from "./../forms/forminput";
 import Button from "./../buttons/button";
-import firebaseApp from './../../firebase/firebaseConfig'
+import firebaseApp from "./../../firebase/firebaseConfig";
 
 const LoginPageStyles = styled.div`
   max-width: 480px;
@@ -33,38 +34,63 @@ const LoginPageStyles = styled.div`
 `;
 
 const LoginPage = (props) => {
+  //use state hooks - functional approach to build component
+  //usestate to call setEmail to change Email
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isValid, setisValid] = useState(false);
 
-    //component logic
+  //component logic
 
-    //{...props} on the base component to use functions 
-    const handleLogin = (e) => {
-        firebaseApp.auth().signInWithEmailAndPassword('test@test.test', '1234567')
-        .then((userCreds) => {
-            console.log(userCreds)
-            var user = userCreds.user;
-            //redirect to dashboard
-        })
+  //{...props} on the base component to use functions
+  //'test@test.test', '1234567'
+  const handleLogin = (e) => {
+    firebaseApp
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCreds) => {
+        console.log(userCreds.user.uid);
+        var userid = userCreds.user.uid;
+        //redirect to dashboard
+        setisValid(true);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setisValid(false);
+      });
+  };
 
+  if (isValid) {
+    return <Redirect to="/dashboard/Dashboard" />;
+  } else {
+    return (
+      <LoginPageStyles>
+        <header>
+          <h1>Account Login</h1>
 
-    }
+          <p>access your employee manager</p>
+        </header>
 
+        <FormInput
+          inputType="email"
+          label="valid email address"
+          onChange={(evnt) => setEmail(evnt.target.value.trim())}
+        />
 
+        <FormInput
+          inputType="text"
+          label="password (8 charachters)"
+          onChange={(evnt) => setPassword(evnt.target.value.trim())}
+        />
 
-  return (
-    <LoginPageStyles>
-      <header>
-        <h1>Account Login</h1>
-
-        <p>access your employee manager</p>
-      </header>
-
-      <FormInput inputType="email" label="valid email address" />
-
-      <FormInput inputType="password" label="password (8 charachters)" />
-
-      <Button onClick={handleLogin} label="login to your account" uiStyle="signup" />
-    </LoginPageStyles>
-  );
+        <Button
+          onClick={handleLogin}
+          label="login to your account"
+          uiStyle="signup"
+        />
+      </LoginPageStyles>
+    );
+  }
 };
 
 export default LoginPage;

@@ -6,6 +6,7 @@
  import RegisterPage from './components/pages/RegisterPage'
  import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
  import AppBar from './components/appbar/appBar'
+ import DashBoard from './components/pages/dashboard/Dashboard'
 
 
 
@@ -25,6 +26,10 @@ function App() {
 
          <Route path="/register">
             <RegisterPage></RegisterPage>
+         </Route>
+
+         <Route path="/dashboard/Dashboard">
+            <DashBoard></DashBoard>
          </Route>
 
          <Route path="*">
