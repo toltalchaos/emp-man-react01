@@ -1,5 +1,9 @@
-import React, {useContext, useState} from 'react';
-import styled from 'styled-components'
+import AuthContext, { AuthProvider } from 'auth/AuthContext';
+import React, {useState,useContext} from 'react';
+import styled from 'styled-components';
+import {Redirect} from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
+
  
 
 
@@ -37,14 +41,16 @@ background:#f3f3f3;
 height: calc(100vh - 64px);
 `
 const DashBoard = (props) => {
+   const auth = useContext(AuthContext);
    
-  
-     return (
+
+  if(auth.authenticated){
+    return (
             <DashBoardStyles>              
                  <SideBar>
                 <header>
                     <h1>Firebase</h1>
-                    <p>whats all the fuss about</p>
+                    <p>user: {auth.uid}</p>
                 </header>
            
             <ul>
@@ -60,8 +66,13 @@ const DashBoard = (props) => {
             </Panels>   
     
         </DashBoardStyles>
-     )     
-    
+     ) 
+  }
+  else{
+    return<Redirect to='/login'/>
+  
+       
+    }
         
 }
  

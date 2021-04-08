@@ -1,42 +1,54 @@
+import React, { useState, useContext } from "react";
+import styled from "styled-components";
+import ButtonObj from "components/buttons/button";
+import firebaseApp from "firebase/firebaseConfig";
+import AuthContext from "../../auth/AuthContext";
+import { Link, Redirect, Route } from "react-router-dom";
 
-import React from 'react';
-import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+const AppBarStyle = styled.nav`
+  margin: 2rem auto;
 
-const  AppBarStyle = styled.nav `
-margin:2rem auto;
+  a {
+    text-decoration: none;
+    background-color: cornflowerblue;
+    padding: 1rem;
+    margin: 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+  }
 
- a{
-     text-decoration:none;
-    background-color:cornflowerblue;
-    padding:1rem;
-    margin:1.5rem;
-    border-radius:0.5rem;
-    color:white;
-}
-
-ul{
+  ul {
     display: flex;
-    align-items:center;
-    justify-content:space-evenly;
-}
-`
+    align-items: center;
+    justify-content: space-evenly;
+  }
+`;
 
-function  AppBar (props){
+function AppBar(props) {
+  const auth = useContext(AuthContext);
 
-return (
- < AppBarStyle>
- <ul>
-     <li><Link to="/">Home</Link></li>
-     <li><Link to="/login">Login</Link></li>
-     <li><Link to="/register">Register</Link></li>
-     <li><Link to="/dashboard/Dashboard">dashboard</Link></li>
- </ul>   
+  const handleLogOut = () => {
+    firebaseApp.auth().signOut();
+    auth.authenticate = false;}
 
- </ AppBarStyle>
- )
+    
+      return (
+        <AppBarStyle>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/dashboard/Dashboard">dashboard</Link>
+            </li>
+            <li>
+              <ButtonObj onClick={handleLogOut}>Sign out</ButtonObj>
+            </li>
+          </ul>
+        </AppBarStyle>
+      );
+    
+  };
 
-}
 
-export default  AppBar 
- 
+export default AppBar;

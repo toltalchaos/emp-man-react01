@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect, Route } from "react-router-dom";
 
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import styled from "styled-components";
 import FormInput from "./../forms/forminput";
 import Button from "./../buttons/button";
 import firebaseApp from "./../../firebase/firebaseConfig";
+import AuthContext from '../../auth/AuthContext';
 
 const LoginPageStyles = styled.div`
   max-width: 480px;
@@ -34,6 +35,7 @@ const LoginPageStyles = styled.div`
 `;
 
 const LoginPage = (props) => {
+  const auth = useContext(AuthContext);
   //use state hooks - functional approach to build component
   //usestate to call setEmail to change Email
   const [email, setEmail] = useState("");
@@ -51,6 +53,10 @@ const LoginPage = (props) => {
       .then((userCreds) => {
         console.log(userCreds.user.uid);
         var userid = userCreds.user.uid;
+
+        auth.authenticated = true;
+        auth.uid = userid;
+        
         //redirect to dashboard
         setisValid(true);
       })

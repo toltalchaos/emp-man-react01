@@ -7,12 +7,13 @@
  import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
  import AppBar from './components/appbar/appBar'
  import DashBoard from './components/pages/dashboard/Dashboard'
+ import {AuthProvider} from './auth/AuthContext'
 
 
 
 function App() {
   return (
-    
+    <AuthProvider>
     <Router>
        <AppBar></AppBar>
        <Switch>
@@ -38,6 +39,7 @@ function App() {
 
        </Switch>
      </Router>
+     </AuthProvider>
     
   );
 }
