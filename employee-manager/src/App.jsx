@@ -29,8 +29,11 @@ function App() {
             <RegisterPage></RegisterPage>
          </Route>
 
-         <Route path="/dashboard/Dashboard">
-            <DashBoard></DashBoard>
+         <Route path="/Dashboard">
+            <DashBoard>
+            
+
+            </DashBoard>
          </Route>
 
          <Route path="*">

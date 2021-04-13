@@ -1,14 +1,15 @@
 import AuthContext, { AuthProvider } from 'auth/AuthContext';
 import React, {useState,useContext} from 'react';
 import styled from 'styled-components';
-import {Redirect} from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
+import {Redirect, Link, useRouteMatch, Route, Switch} from 'react-router-dom';
+import DeletePanel from './panels/DeletePanel';
+import CreatePanel from './panels/CreatePanel';
+import EditPanel from './panels/EditPanel';
 
  
 
 
 const DashBoardStyles = styled.header ` 
-
       display:flex;
 `
 
@@ -42,6 +43,7 @@ height: calc(100vh - 64px);
 `
 const DashBoard = (props) => {
    const auth = useContext(AuthContext);
+   const {path, url} = useRouteMatch();
    
 
   if(auth.authenticated){
@@ -54,15 +56,35 @@ const DashBoard = (props) => {
                 </header>
            
             <ul>
-            <li>view all</li>
-            <li>add new employee</li>
-            <li>edit an employee</li>
-            <li>delete an employee</li>
+            <li><Link to={`${url}`}>View all</Link>
+            </li>
+            <li>
+              <Link to={`${url}/create`}>add new </Link>
+            </li>
+            <li>
+              <Link to={`${url}/edit`}>edit </Link>
+            </li>
+            <li>
+              <Link to={`${url}/delete`}>delete </Link>
+              </li>
               
                 </ul>
             </SideBar>
             <Panels>
-                
+                <Switch>
+                    <Route path={path}>
+                        <ViewAll></ViewAll>
+                    </Route>
+                    <Route path={`${path}/delete`}>
+                        <DeletePanel></DeletePanel>
+                    </Route>
+                    <Route path={`${path}/create`}>
+                        <CreatePanel></CreatePanel>
+                    </Route>
+                    <Route path={`${path}/edit`}>
+                        <EditPanel/>
+                    </Route>
+                </Switch>
             </Panels>   
     
         </DashBoardStyles>

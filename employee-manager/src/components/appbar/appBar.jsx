@@ -29,6 +29,7 @@ function AppBar(props) {
 
   const handleLogOut = () => {
     firebaseApp.auth().signOut();
+
     auth.authenticate = false;}
 
     
@@ -39,7 +40,7 @@ function AppBar(props) {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/dashboard/Dashboard">dashboard</Link>
+              <Link to="/Dashboard">dashboard</Link>
             </li>
             <li>
               <ButtonObj onClick={handleLogOut}>Sign out</ButtonObj>
