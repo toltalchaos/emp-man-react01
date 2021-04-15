@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
+
  
 import {
   User,
   Add,
   RemoveEmployee
-} from "components/icons";
+} from "./../../../../icon";
 
 const WidgetStyles = styled.aside`
   background: #ffffff;
@@ -27,7 +28,7 @@ const WidgetStyles = styled.aside`
   }
 `;
 
-const EmployeeStyles = styled.li`
+const EmployeeStyles = styled.ul`
   display: flex;
   align-items: center;
   padding: 0.25rem;
@@ -62,19 +63,24 @@ const EmployeeStyles = styled.li`
   }
 `;
 
-const Employee = ( ) => {
- 
-  return (
+const Employee = ( props ) => {
+
+  if(props.employee.length == 0){
+
+    return null;
+  }
+  else{
+    return (
     <EmployeeStyles>
      
       <li className="avatar">
         <User />
       </li>
       <li className="content">
-        <p>full name</p> 
+        <p>full name</p> {props.name}
       </li>
       <li className="content">
-        <p>department</p> 
+        <p>department</p> {props.department}
       </li>
       <li className="controls">
         <RemoveEmployee />
@@ -83,6 +89,9 @@ const Employee = ( ) => {
       
     </EmployeeStyles>
   );
+  }
+ 
+  
 };
 
 const EmployeeDisplayWidget = (props) => {
@@ -93,7 +102,9 @@ const EmployeeDisplayWidget = (props) => {
         <h2>Employees</h2>
       </header>
      
-        <Employee name="full name" department={"tea lady"}/>
+      {
+        props.employees.map((employee) => (<Employee key={employee.id} id={employee.id} name={employee.name} department={employee.department}/>))
+      }
       
     </WidgetStyles>
   );

@@ -5,6 +5,7 @@ import {Redirect, Link, useRouteMatch, Route, Switch} from 'react-router-dom';
 import DeletePanel from './panels/DeletePanel';
 import CreatePanel from './panels/CreatePanel';
 import EditPanel from './panels/EditPanel';
+import ViewAll from './panels/ViewAll';
 
  
 

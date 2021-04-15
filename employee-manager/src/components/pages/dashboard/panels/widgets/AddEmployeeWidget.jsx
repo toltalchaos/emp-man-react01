@@ -1,11 +1,13 @@
-import React  from 'react';
-import styled from 'styled-components'
+import React, {useState}  from 'react';
+import styled from 'styled-components';
+import {v4 as uuidv4} from 'uuid';
  
  
+import firebaseApp from '../../../../../firebase/firebaseConfig';
 
-import Button from 'components/buttons/Button';
-import FormInput from 'components/forms/FormInput';
-import { UserAdd } from 'components/icons';
+import Button from 'components/buttons/button';
+import FormInput from 'components/forms/forminput';
+import { UserAdd } from './../../../../icon';
 
 
 const WidgetStyles = styled.aside `  
@@ -27,8 +29,30 @@ const WidgetStyles = styled.aside `
 
 const AddEmployeeWidget = (props) => {
  
+  const[name ,setName] = useState('');
+  const [department, setDepartment] = useState('');
   
-  
+  console.log(name, department)
+
+  function handleInsert(){
+    //insert the data from state
+    //create uuid check if it already exists. 
+    //pass to firebase function - offloaded to firebase cloud for processing 
+    const id = uuidv4().substr(0,8);
+    //collec refrence to employees
+   const newDocRef = firebaseApp.firestore().collection(firebaseApp.auth().currentUser.uid).doc('hr').collection('employees').doc(id);
+    newDocRef.set(
+      {
+        id,
+        name,
+        department
+      }
+    )
+      //clear input fields
+      setName('');
+      setDepartment('');
+  }
+
     return ( 
        <WidgetStyles>
           <header>
@@ -37,9 +61,9 @@ const AddEmployeeWidget = (props) => {
                Add New Employee
               </h2>
           </header>
-        <FormInput type="text" label="fullname" />
-        <FormInput type="text" label="department"/>
-        <Button label="add employee"/>
+        <FormInput type="text" label="fullname" onChange={(e) => setName(e.target.value)}/>
+        <FormInput type="text" label="department" onChange={(e) => setDepartment(e.target.value)}/>
+        <Button label="add employee" onClick={handleInsert}/>
        </WidgetStyles>
      );
 }
