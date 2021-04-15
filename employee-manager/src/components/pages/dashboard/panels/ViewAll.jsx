@@ -1,27 +1,28 @@
-import React, { useEffect } from "react";
-import firebaseApp from "./../../../../firebase/firebaseConfig";
+import React  from "react";
+import styled from "styled-components";
+ 
+
+import AddEmployeeWidget from "./widgets/AddEmployeeWidget";
+import EmployeeDisplayWidget from "./widgets/EmployeeDisplayWidget";
+
+const ViewAllPanelStyles = styled.section`
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  aside {
+    width: 480px;
+  }
+`;
 
 const ViewAll = (props) => {
-  useEffect(() => {
-    //path to the firestore data where the uid is the curent user
-    const userData = firebaseApp
-      .firestore()
-      .collection("users")
-      .doc(firebaseApp.auth().currentUser.uid);
-      
-      //promise resolve from firebase
-    userData.get().then((doc) => {
-      console.log(doc.data);
-
-
-    });
-  }, []);
-
-  //console.log(firebaseApp.auth().currentUser.uid)
   return (
-    <header>
-      <h2>ViewAll Pannel</h2>
-    </header>
+    <section>
+      <ViewAllPanelStyles>
+        <AddEmployeeWidget />
+        <EmployeeDisplayWidget />
+      </ViewAllPanelStyles>
+    </section>
   );
 };
 
